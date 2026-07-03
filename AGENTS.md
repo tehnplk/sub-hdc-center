@@ -3,6 +3,7 @@
 
 ## DATABASE TOOL
 - use `db-cli` skill to manipulate database.
+- you also can use db-cli via ssh tunnel
 - read database credential from .env
 
 ## TEST &  INVESTIGATION
