@@ -5,12 +5,10 @@ services:
     restart: unless-stopped
     ports:
       - "3014:3000"
-    environment:
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_USER: postgres
-      DB_PASSWORD: "112233"
-      DB_NAME: sub_hdc_center
+    env_file:
+      - .env
+    volumes:
+      - ./.env:/app/.env:ro
     depends_on:
       db:
         condition: service_healthy
