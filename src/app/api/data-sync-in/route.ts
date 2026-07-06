@@ -52,8 +52,13 @@ export async function POST(request: Request) {
 
   const record = Array.isArray(payload) ? {} : (payload as Record<string, unknown>);
   const subCenterName =
-    typeof record.sub_center_name === 'string' ? record.sub_center_name.slice(0, 255) : null;
-  const topic = typeof record.topic === 'string' ? record.topic.slice(0, 255) : null;
+    typeof record.sub_center_name === 'string' ? record.sub_center_name.trim().slice(0, 255) : '';
+  const topic = typeof record.topic === 'string' ? record.topic.trim().slice(0, 255) : '';
+
+  // sub_center_name + topic เป็น unique key ของการ replace — ถ้าขาดจะกันแถวซ้ำไม่ได้
+  if (!subCenterName || !topic) {
+    return json({ success: false, error: 'sub_center_name and topic are required' }, 400);
+  }
 
   try {
     const pool = getDbPool();
