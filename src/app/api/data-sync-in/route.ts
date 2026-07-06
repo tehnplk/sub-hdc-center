@@ -21,7 +21,8 @@ export async function GET() {
   try {
     const pool = getDbPool();
     const { rows } = await pool.query(
-      `SELECT id, sub_center_name, topic, payload, date_time_sync
+      `SELECT id, sub_center_name, topic, payload,
+              to_char(date_time_sync AT TIME ZONE 'Asia/Bangkok', 'YYYY-MM-DD HH24:MI:SS') AS date_time_sync
        FROM data_sync_in
        ORDER BY date_time_sync DESC
        LIMIT 10`,

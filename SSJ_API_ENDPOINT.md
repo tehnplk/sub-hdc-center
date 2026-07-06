@@ -55,6 +55,7 @@ curl -X POST https://subhdc.plkhealth.go.th/api/data-sync-in \
 ### GET
 
 คืน 10 รายการ sync ล่าสุด (เรียงตาม `date_time_sync` ใหม่สุดก่อน ไม่ต้องมี body)
+`date_time_sync` เป็น**เวลาไทย (+7)** รูปแบบ `YYYY-MM-DD HH:mm:ss`
 
 ```bash
 curl https://subhdc.plkhealth.go.th/api/data-sync-in
@@ -75,7 +76,7 @@ curl https://subhdc.plkhealth.go.th/api/data-sync-in
         "topic": "person",
         "rows": [{ "hospcode": "06505", "hosname": "รพ.บางกระทุ่ม", "total": 12500, "sync_ok": 12400 }]
       },
-      "date_time_sync": "2026-07-06T03:43:28.300Z"
+      "date_time_sync": "2026-07-06 10:43:28"
     }
   ]
 }
@@ -126,6 +127,7 @@ curl -X POST https://subhdc.plkhealth.go.th/api/sub-version \
 ### GET
 
 คืนทุก record เรียงใหม่สุดก่อน (ไม่ต้องมี body)
+`date_time` เป็น**เวลาไทย (+7)** รูปแบบ `YYYY-MM-DD HH:mm:ss`
 
 ```bash
 curl https://subhdc.plkhealth.go.th/api/sub-version
@@ -137,7 +139,7 @@ curl https://subhdc.plkhealth.go.th/api/sub-version
 {
   "success": true,
   "data": [
-    { "id": 1, "version": "1.0.2", "issue": "แก้บั๊กหน้า benchmark", "date_time": "2026-07-06T03:15:00.000Z" }
+    { "id": 1, "version": "1.0.2", "issue": "แก้บั๊กหน้า benchmark", "date_time": "2026-07-06 10:15:00" }
   ]
 }
 ```

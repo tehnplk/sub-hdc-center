@@ -19,7 +19,9 @@ export async function GET() {
   try {
     const pool = getDbPool();
     const { rows } = await pool.query(
-      'SELECT id, version, issue, date_time FROM sub_version ORDER BY id DESC',
+      `SELECT id, version, issue,
+              to_char(date_time AT TIME ZONE 'Asia/Bangkok', 'YYYY-MM-DD HH24:MI:SS') AS date_time
+       FROM sub_version ORDER BY id DESC`,
     );
     return json({ success: true, data: rows });
   } catch (error) {
