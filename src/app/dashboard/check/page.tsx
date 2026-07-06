@@ -101,7 +101,11 @@ export default async function CheckPage() {
                   <td className="px-3 py-2 text-slate-400">{index + 1}</td>
                   <td className="px-3 py-2 font-medium text-slate-800">{row.district_name}</td>
                   <td className="px-3 py-2 text-slate-700">
-                    {row.sub_center_name ?? <span className="text-slate-300">ยังไม่เชื่อมต่อกับจังหวัด</span>}
+                    {row.last_sync === null ? (
+                      <span className="text-slate-300">ยังไม่เชื่อมต่อกับจังหวัด</span>
+                    ) : (
+                      row.sub_center_name
+                    )}
                   </td>
                   <td className="px-3 py-2">
                     {row.version ? (
@@ -113,7 +117,7 @@ export default async function CheckPage() {
                     )}
                   </td>
                   <td className="px-3 py-2">
-                    {row.sub_center_name === null ? (
+                    {row.last_sync === null ? (
                       <span className="text-slate-300">-</span>
                     ) : (
                       <span
