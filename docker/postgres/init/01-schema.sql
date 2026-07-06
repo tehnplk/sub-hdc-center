@@ -21,7 +21,8 @@ CREATE TABLE IF NOT EXISTS data_sync_in (
   payload JSONB NOT NULL,
   sub_center_name VARCHAR(255) NULL,
   topic VARCHAR(255) NULL,
-  date_time_sync TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  date_time_sync TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  CONSTRAINT uq_data_sync_in_center_topic UNIQUE (sub_center_name, topic)
 );
 
 CREATE TABLE IF NOT EXISTS sub_version (

@@ -15,6 +15,10 @@ Base URL (production): `https://subhdc.plkhealth.go.th`
 ถ้ามี field `sub_center_name` (ชื่ออำเภอของ sub center ที่ส่งข้อมูล) และ `topic` จะถูกแยกเก็บลงคอลัมน์ต่างหากเพื่อให้ query ง่าย
 ส่วน `rows` ส่วนใหญ่เป็นข้อมูล **summary รายหน่วยบริการในอำเภอ**
 
+> **Sync แบบ replace:** คู่ `sub_center_name` + `topic` เป็น unique — ถ้าอำเภอเดิมส่ง topic เดิมซ้ำ
+> ระบบจะ**แทนที่** `payload` และอัปเดต `date_time_sync` ของแถวเดิม (ไม่เพิ่มแถวใหม่)
+> ดังนั้นแต่ละอำเภอจะมีข้อมูลล่าสุดเพียง 1 แถวต่อ 1 topic
+
 **Body:**
 
 ```json

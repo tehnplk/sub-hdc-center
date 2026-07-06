@@ -58,7 +58,10 @@ export async function POST(request: Request) {
   try {
     const pool = getDbPool();
     const { rows } = await pool.query<{ id: string; date_time_sync: string }>(
-      'INSERT INTO data_sync_in (payload, sub_center_name, topic) VALUES ($1, $2, $3) RETURNING id, date_time_sync',
+      `INSERT INTO data_sync_in (payload, sub_center_name, topic) VALUES ($1, $2, $3)
+       ON CONFLICT (sub_center_name, topic)
+       DO UPDATE SET payload = EXCLUDED.payload, date_time_sync = NOW()
+       RETURNING id, date_time_sync`,
       [JSON.stringify(payload), subCenterName, topic],
     );
 
