@@ -115,6 +115,48 @@ curl https://subhdc.plkhealth.go.th/api/sub-version
 }
 ```
 
+### PUT
+
+แก้ไข record เดิมตาม `id` (ส่งเฉพาะ field ที่ต้องการแก้ — field ที่ไม่ส่งจะคงค่าเดิม)
+
+**Body:**
+
+```json
+{
+  "id": 1,
+  "version": "1.0.3",
+  "issue": "อัปเดตรายละเอียด issue"
+}
+```
+
+| field | บังคับ | รายละเอียด |
+|---|---|---|
+| `id` | ✅ | เลข id ของ record ที่จะแก้ — ไม่พบตอบ `404` |
+| `version` | ❌* | string ไม่เกิน 50 ตัวอักษร |
+| `issue` | ❌* | string |
+
+\* ต้องส่งอย่างน้อย 1 field (`version` หรือ `issue`) ไม่งั้นตอบ `400`
+
+**ตัวอย่าง curl:**
+
+```bash
+curl -X PUT https://subhdc.plkhealth.go.th/api/sub-version \
+  -H "Content-Type: application/json" \
+  -d '{"id":1,"issue":"อัปเดตรายละเอียด issue"}'
+```
+
+**Response `200`:**
+
+```json
+{
+  "success": true,
+  "id": 1,
+  "version": "1.0.2",
+  "issue": "อัปเดตรายละเอียด issue",
+  "date_time": "2026-07-06T03:15:00.000Z"
+}
+```
+
 ---
 
 ## หมายเหตุ
