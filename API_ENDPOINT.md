@@ -20,8 +20,6 @@ Base URL (production): `https://subhdc.plkhealth.go.th`
 {
   "sub_center_name": "รพ.สต.บ้านคลอง",
   "topic": "person",
-  "hospcode": "10731",
-  "data_type": "person",
   "rows": [
     { "cid": "3100500123456", "name": "สมชาย ใจดี" },
     { "cid": "3650100654321", "name": "สมหญิง มีสุข" }
@@ -34,7 +32,7 @@ Base URL (production): `https://subhdc.plkhealth.go.th`
 ```bash
 curl -X POST https://subhdc.plkhealth.go.th/api/data-sync-in \
   -H "Content-Type: application/json" \
-  -d '{"sub_center_name":"รพ.สต.บ้านคลอง","topic":"person","hospcode":"10731","data_type":"person","rows":[{"cid":"3100500123456","name":"สมชาย ใจดี"}]}'
+  -d '{"sub_center_name":"รพ.สต.บ้านคลอง","topic":"person","rows":[{"cid":"3100500123456","name":"สมชาย ใจดี"}]}'
 ```
 
 **Response `201`:**
