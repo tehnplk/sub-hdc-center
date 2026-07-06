@@ -36,12 +36,13 @@ export async function POST(request: Request) {
   const record = Array.isArray(payload) ? {} : (payload as Record<string, unknown>);
   const subCenterName =
     typeof record.sub_center_name === 'string' ? record.sub_center_name.slice(0, 255) : null;
+  const topic = typeof record.topic === 'string' ? record.topic.slice(0, 255) : null;
 
   try {
     const pool = getDbPool();
     const { rows } = await pool.query<{ id: string; date_time_sync: string }>(
-      'INSERT INTO data_sync_in (payload, sub_center_name) VALUES ($1, $2) RETURNING id, date_time_sync',
-      [JSON.stringify(payload), subCenterName],
+      'INSERT INTO data_sync_in (payload, sub_center_name, topic) VALUES ($1, $2, $3) RETURNING id, date_time_sync',
+      [JSON.stringify(payload), subCenterName, topic],
     );
 
     return json(

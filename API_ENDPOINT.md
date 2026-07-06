@@ -12,13 +12,14 @@ Base URL (production): `https://subhdc.plkhealth.go.th`
 ### POST
 
 เก็บ JSON ทั้งก้อนลงคอลัมน์ `payload` ของตาราง `data_sync_in`
-ถ้ามี field `sub_center_name` จะถูกแยกเก็บลงคอลัมน์ต่างหากเพื่อให้ query ง่าย
+ถ้ามี field `sub_center_name` และ `topic` จะถูกแยกเก็บลงคอลัมน์ต่างหากเพื่อให้ query ง่าย
 
 **Body:**
 
 ```json
 {
   "sub_center_name": "รพ.สต.บ้านคลอง",
+  "topic": "person",
   "hospcode": "10731",
   "data_type": "person",
   "rows": [
@@ -33,7 +34,7 @@ Base URL (production): `https://subhdc.plkhealth.go.th`
 ```bash
 curl -X POST https://subhdc.plkhealth.go.th/api/data-sync-in \
   -H "Content-Type: application/json" \
-  -d '{"sub_center_name":"รพ.สต.บ้านคลอง","hospcode":"10731","data_type":"person","rows":[{"cid":"3100500123456","name":"สมชาย ใจดี"}]}'
+  -d '{"sub_center_name":"รพ.สต.บ้านคลอง","topic":"person","hospcode":"10731","data_type":"person","rows":[{"cid":"3100500123456","name":"สมชาย ใจดี"}]}'
 ```
 
 **Response `201`:**
@@ -49,7 +50,7 @@ curl -X POST https://subhdc.plkhealth.go.th/api/data-sync-in \
 | body ไม่ใช่ JSON ที่ถูกต้อง | `400` `{"success":false,"error":"Invalid JSON body"}` |
 | body ไม่ใช่ object/array | `400` `{"success":false,"error":"JSON body must be an object or array"}` |
 | body ใหญ่เกิน 5MB | `413` `{"success":false,"error":"Payload too large (max 5MB)"}` |
-| `sub_center_name` ยาวเกิน 255 ตัวอักษร | ถูกตัดให้เหลือ 255 |
+| `sub_center_name` / `topic` ยาวเกิน 255 ตัวอักษร | ถูกตัดให้เหลือ 255 |
 | field อื่น ๆ | ใส่อะไรมาก็ได้ เก็บลง `payload` ทั้งก้อน |
 
 > endpoint นี้**ไม่มี GET** — เรียก GET จะได้ `405 Method Not Allowed`
