@@ -1,5 +1,6 @@
 ## RULE
 - Do not  build and  deploy if user not request.
+- use `npx ctx7` to research  newest technology.
 
 ## DATABASE TOOL
 - use `db-cli` skill to manipulate database.

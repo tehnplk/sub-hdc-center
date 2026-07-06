@@ -15,9 +15,9 @@ export async function POST(request: Request) {
     const update = normalizeBenchmarkUpdate(await request.json());
     const pool = getDbPool();
 
-    await pool.query(`UPDATE benchmark_district SET ${update.field} = ? WHERE id = ?`, [update.value, update.id]);
+    await pool.query(`UPDATE benchmark_district SET ${update.field} = $1 WHERE id = $2`, [update.value, update.id]);
 
-    const [rows] = await pool.query(
+    const { rows } = await pool.query(
       `
         SELECT
           b.id,
@@ -30,12 +30,12 @@ export async function POST(request: Request) {
           b.hos_loc_send
         FROM benchmark_district b
         LEFT JOIN c_district c ON b.district = c.code
-        WHERE b.id = ?
+        WHERE b.id = $1
       `,
       [update.id],
     );
 
-    const [row] = rows as unknown[];
+    const [row] = rows;
     if (!row) {
       return NextResponse.json({ error: 'Benchmark row not found' }, { status: 404 });
     }

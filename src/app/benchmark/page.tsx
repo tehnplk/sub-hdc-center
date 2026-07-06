@@ -1,4 +1,3 @@
-import type { RowDataPacket } from 'mysql2';
 import type { Metadata } from 'next';
 import { Activity, Server } from 'lucide-react';
 import { BenchmarkDashboard, type BenchmarkRow } from './benchmark-dashboard';
@@ -11,7 +10,7 @@ export const metadata: Metadata = {
   description: 'District benchmark table',
 };
 
-interface BenchmarkDbRow extends RowDataPacket {
+interface BenchmarkDbRow {
   id: number;
   district: string;
   district_name: string | null;
@@ -24,7 +23,7 @@ interface BenchmarkDbRow extends RowDataPacket {
 
 async function getBenchmarkRows() {
   const pool = getDbPool();
-  const [rows] = await pool.query<BenchmarkDbRow[]>(`
+  const { rows } = await pool.query<BenchmarkDbRow>(`
     SELECT
       b.id,
       b.district,

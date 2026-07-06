@@ -42,3 +42,6 @@ next-env.d.ts
 
 deploy_prod.md
 .playwright-cli
+
+# claude code local settings
+.claude/

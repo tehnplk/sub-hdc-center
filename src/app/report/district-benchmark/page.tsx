@@ -14,7 +14,7 @@ interface BenchmarkItem {
 async function getBenchmarkData(): Promise<BenchmarkItem[]> {
   const pool = getDbPool();
   try {
-    const [rows] = await pool.query(`
+    const { rows } = await pool.query(`
       SELECT b.id, b.district AS code, c.name AS district_name, b.hos_moph_all, b.hos_moph_send
       FROM benchmark_district b
       JOIN c_district c ON b.district = c.code
