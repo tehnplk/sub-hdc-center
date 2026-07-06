@@ -9,6 +9,7 @@
 
 
 ## TEST &  INVESTIGATION
+- run `docker compose up -d --build web`   
 - Use `playwright-cli` skill for testing or investigation.
     ### STEP
         1. `playwright-cli open http://localhost:3000` to start.
@@ -17,6 +18,6 @@
         4. while anotate progress wait user input.
 
 ## deploy
-- @deploy_prod.md
+- @docs/deploy_prod.md
     
 
