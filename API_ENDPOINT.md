@@ -53,7 +53,30 @@ curl -X POST https://subhdc.plkhealth.go.th/api/data-sync-in \
 | `sub_center_name` / `topic` ยาวเกิน 255 ตัวอักษร | ถูกตัดให้เหลือ 255 |
 | field อื่น ๆ | ใส่อะไรมาก็ได้ เก็บลง `payload` ทั้งก้อน |
 
-> endpoint นี้**ไม่มี GET** — เรียก GET จะได้ `405 Method Not Allowed`
+### GET
+
+คืน 10 รายการ sync ล่าสุด (เรียงตาม `date_time_sync` ใหม่สุดก่อน ไม่ต้องมี body)
+
+```bash
+curl https://subhdc.plkhealth.go.th/api/data-sync-in
+```
+
+**Response `200`:**
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 3,
+      "sub_center_name": "รพ.สต.บ้านคลอง",
+      "topic": "person",
+      "payload": { "sub_center_name": "รพ.สต.บ้านคลอง", "topic": "person", "rows": [] },
+      "date_time_sync": "2026-07-06T03:43:28.300Z"
+    }
+  ]
+}
+```
 
 ---
 

@@ -5,7 +5,7 @@ const MAX_BODY_BYTES = 5 * 1024 * 1024; // 5MB
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type',
 };
 
@@ -15,6 +15,22 @@ function json(body: unknown, status = 200) {
 
 export async function OPTIONS() {
   return new NextResponse(null, { status: 204, headers: corsHeaders });
+}
+
+export async function GET() {
+  try {
+    const pool = getDbPool();
+    const { rows } = await pool.query(
+      `SELECT id, sub_center_name, topic, payload, date_time_sync
+       FROM data_sync_in
+       ORDER BY date_time_sync DESC
+       LIMIT 10`,
+    );
+    return json({ success: true, data: rows });
+  } catch (error) {
+    console.error('data-sync-in select failed:', error);
+    return json({ success: false, error: 'Unable to fetch data' }, 500);
+  }
 }
 
 export async function POST(request: Request) {
