@@ -13,6 +13,7 @@ Base URL (production): `https://subhdc.plkhealth.go.th`
 
 เก็บ JSON ทั้งก้อนลงคอลัมน์ `payload` ของตาราง `data_sync_in`
 ถ้ามี field `sub_center_name` (ชื่ออำเภอของ sub center ที่ส่งข้อมูล) และ `topic` จะถูกแยกเก็บลงคอลัมน์ต่างหากเพื่อให้ query ง่าย
+ส่วน `rows` ส่วนใหญ่เป็นข้อมูล **summary รายหน่วยบริการในอำเภอ**
 
 **Body:**
 
@@ -21,8 +22,8 @@ Base URL (production): `https://subhdc.plkhealth.go.th`
   "sub_center_name": "บางกระทุ่ม",
   "topic": "person",
   "rows": [
-    { "cid": "3100500123456", "name": "สมชาย ใจดี" },
-    { "cid": "3650100654321", "name": "สมหญิง มีสุข" }
+    { "hospcode": "06505", "hosname": "รพ.บางกระทุ่ม", "total": 12500, "sync_ok": 12400 },
+    { "hospcode": "07021", "hosname": "รพ.สต.บ้านไร่", "total": 4300, "sync_ok": 4300 }
   ]
 }
 ```
@@ -32,7 +33,7 @@ Base URL (production): `https://subhdc.plkhealth.go.th`
 ```bash
 curl -X POST https://subhdc.plkhealth.go.th/api/data-sync-in \
   -H "Content-Type: application/json" \
-  -d '{"sub_center_name":"บางกระทุ่ม","topic":"person","rows":[{"cid":"3100500123456","name":"สมชาย ใจดี"}]}'
+  -d '{"sub_center_name":"บางกระทุ่ม","topic":"person","rows":[{"hospcode":"06505","hosname":"รพ.บางกระทุ่ม","total":12500,"sync_ok":12400}]}'
 ```
 
 **Response `201`:**
@@ -69,7 +70,11 @@ curl https://subhdc.plkhealth.go.th/api/data-sync-in
       "id": 3,
       "sub_center_name": "บางกระทุ่ม",
       "topic": "person",
-      "payload": { "sub_center_name": "บางกระทุ่ม", "topic": "person", "rows": [] },
+      "payload": {
+        "sub_center_name": "บางกระทุ่ม",
+        "topic": "person",
+        "rows": [{ "hospcode": "06505", "hosname": "รพ.บางกระทุ่ม", "total": 12500, "sync_ok": 12400 }]
+      },
       "date_time_sync": "2026-07-06T03:43:28.300Z"
     }
   ]
