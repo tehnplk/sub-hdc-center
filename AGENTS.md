@@ -1,5 +1,5 @@
 ## RULE
-- Do not  build and  deploy if user not request.
+- Do not commit , push , build and  deploy if user not request.
 - use `npx ctx7` to research  newest technology.
 
 ## DATABASE TOOL
