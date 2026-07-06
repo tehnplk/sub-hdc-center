@@ -4,8 +4,9 @@
 
 ## DATABASE TOOL
 - use `db-cli` skill to manipulate database.
-- you also can use db-cli via ssh tunnel
-- read database credential from .env
+- read database credential from .env .
+- on production host you also can use db-cli via ssh tunnel.
+
 
 ## TEST &  INVESTIGATION
 - Use `playwright-cli` skill for testing or investigation.
