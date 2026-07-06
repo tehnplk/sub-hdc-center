@@ -4,7 +4,7 @@
 
 ## DATABASE TOOL
 - use `db-cli` skill to manipulate database.
-- read database credential from .env .
+- read database credential from .env.local .
 - on production host you also can use db-cli via ssh tunnel.
 
 
