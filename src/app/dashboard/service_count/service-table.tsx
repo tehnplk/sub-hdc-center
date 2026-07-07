@@ -50,7 +50,15 @@ function DistrictModal({
   hospitals: HospitalRow[];
   onClose: () => void;
 }) {
+  const [affiliationFilter, setAffiliationFilter] = useState('all');
+  const [sentFilter, setSentFilter] = useState('all');
+
   const sentCount = hospitals.filter((h) => h.sent).length;
+  const filtered = hospitals.filter(
+    (h) =>
+      (affiliationFilter === 'all' || h.affiliation === affiliationFilter) &&
+      (sentFilter === 'all' || h.sent === (sentFilter === 'sent'))
+  );
 
   return (
     <div
@@ -58,7 +66,7 @@ function DistrictModal({
       onClick={onClose}
     >
       <div
-        className="flex max-h-[85vh] w-full max-w-4xl flex-col rounded-xl bg-white shadow-2xl"
+        className="flex h-[85vh] w-full max-w-3xl flex-col rounded-xl bg-white shadow-2xl"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="flex items-center justify-between border-b border-slate-200 px-5 py-3">
@@ -68,32 +76,73 @@ function DistrictModal({
             </h4>
             <p className="text-xs text-slate-500">
               หน่วยบริการ {hospitals.length} แห่ง · จัดส่งข้อมูลแล้ว {sentCount} แห่ง
+              {filtered.length !== hospitals.length && ` · แสดง ${filtered.length} แห่ง`}
             </p>
           </div>
-          <button
-            type="button"
-            onClick={onClose}
-            className="flex h-7 w-7 items-center justify-center rounded-md text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
-          >
-            <X className="h-4 w-4" />
-          </button>
+          <div className="flex items-center gap-2">
+            <select
+              value={affiliationFilter}
+              onChange={(event) => setAffiliationFilter(event.target.value)}
+              className="h-7 rounded-md border border-slate-200 bg-white px-2 text-xs text-slate-700 outline-none focus:border-sky-400"
+            >
+              <option value="all">สังกัด: ทั้งหมด</option>
+              <option value="สป.สธ.">สป.สธ.</option>
+              <option value="อปท.">อปท.</option>
+            </select>
+            <select
+              value={sentFilter}
+              onChange={(event) => setSentFilter(event.target.value)}
+              className="h-7 rounded-md border border-slate-200 bg-white px-2 text-xs text-slate-700 outline-none focus:border-sky-400"
+            >
+              <option value="all">สถานะส่ง: ทั้งหมด</option>
+              <option value="sent">ส่งแล้ว</option>
+              <option value="not_sent">ยังไม่ส่ง</option>
+            </select>
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex h-7 w-7 items-center justify-center rounded-md text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
         </div>
 
-        <div className="overflow-y-auto px-5 py-3">
+        <div className="flex-1 overflow-y-auto px-5 py-3">
           <table className="w-full text-xs">
             <thead className="sticky top-0 bg-white">
               <tr className="border-b border-slate-200 text-slate-600">
                 <th className="px-2 py-2 text-left font-semibold">รหัส</th>
                 <th className="px-2 py-2 text-left font-semibold">ชื่อหน่วยบริการ</th>
-                <th className="px-2 py-2 text-center font-semibold">สังกัด</th>
                 <th className="px-2 py-2 text-center font-semibold">จัดส่งข้อมูล</th>
+                <th className="px-2 py-2 text-center font-semibold">สังกัด</th>
               </tr>
             </thead>
             <tbody>
-              {hospitals.map((h) => (
+              {filtered.length === 0 && (
+                <tr>
+                  <td colSpan={4} className="px-2 py-6 text-center text-slate-400">
+                    ไม่มีหน่วยบริการตามเงื่อนไขที่กรอง
+                  </td>
+                </tr>
+              )}
+              {filtered.map((h) => (
                 <tr key={h.hospcode} className="border-b border-slate-100 last:border-0">
                   <td className="px-2 py-1.5 font-mono text-slate-500">{h.hospcode}</td>
                   <td className="px-2 py-1.5 text-slate-800">{h.hospname}</td>
+                  <td className="px-2 py-1.5">
+                    <span className="flex justify-center">
+                      {h.sent ? (
+                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#59e820] text-white">
+                          <Check className="h-3.5 w-3.5" />
+                        </span>
+                      ) : (
+                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#f74d23] text-white">
+                          <X className="h-3.5 w-3.5" />
+                        </span>
+                      )}
+                    </span>
+                  </td>
                   <td className="px-2 py-1.5 text-center">
                     <span
                       className={`rounded-full px-2 py-0.5 font-semibold ${
@@ -103,15 +152,6 @@ function DistrictModal({
                       }`}
                     >
                       {h.affiliation}
-                    </span>
-                  </td>
-                  <td className="px-2 py-1.5">
-                    <span className="flex justify-center">
-                      {h.sent ? (
-                        <Check className="h-4 w-4 text-emerald-600" />
-                      ) : (
-                        <X className="h-4 w-4 text-rose-400" />
-                      )}
                     </span>
                   </td>
                 </tr>
