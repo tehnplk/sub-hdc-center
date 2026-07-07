@@ -26,21 +26,25 @@ async function getDistrictRows() {
       d.code,
       d.name,
       (SELECT count(*)::int FROM c_hospital h
-        WHERE h.amp_code = d.code AND h.hostype_new IN ('18', '5', '7', '8')) AS moph_all,
+        WHERE h.amp_code = d.code AND h.is_active
+          AND h.hostype_new IN ('18', '5', '7', '8')) AS moph_all,
       (SELECT count(DISTINCT r.hospcode)::int
          FROM data_sync_in s
          CROSS JOIN LATERAL jsonb_to_recordset(s.payload -> 'rows') AS r(hospcode text)
          JOIN c_hospital h ON h.hospcode = r.hospcode
         WHERE s.topic = 'service_count'
-          AND h.amp_code = d.code AND h.hostype_new IN ('18', '5', '7', '8')) AS moph_sent,
+          AND h.amp_code = d.code AND h.is_active
+          AND h.hostype_new IN ('18', '5', '7', '8')) AS moph_sent,
       (SELECT count(*)::int FROM c_hospital h
-        WHERE h.amp_code = d.code AND h.hostype_new = '21') AS loc_all,
+        WHERE h.amp_code = d.code AND h.is_active
+          AND h.hostype_new = '21') AS loc_all,
       (SELECT count(DISTINCT r.hospcode)::int
          FROM data_sync_in s
          CROSS JOIN LATERAL jsonb_to_recordset(s.payload -> 'rows') AS r(hospcode text)
          JOIN c_hospital h ON h.hospcode = r.hospcode
         WHERE s.topic = 'service_count'
-          AND h.amp_code = d.code AND h.hostype_new = '21') AS loc_sent,
+          AND h.amp_code = d.code AND h.is_active
+          AND h.hostype_new = '21') AS loc_sent,
       (SELECT to_char(MAX(s.date_time_sync) AT TIME ZONE 'Asia/Bangkok', 'YYYY-MM-DD HH24:MI:SS')
          FROM data_sync_in s
          CROSS JOIN LATERAL jsonb_to_recordset(s.payload -> 'rows') AS r(hospcode text)
