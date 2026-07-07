@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
+import { connection } from 'next/server';
 import { Send } from 'lucide-react';
 import { getDbPool } from '@/lib/db';
 import { ServiceTable, type DistrictRow, type HospitalRow } from './service-table';
-
-export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: 'หน่วยบริการส่งข้อมูลเข้าศูนย์ข้อมูลระดับอำเภอ',
@@ -70,6 +69,7 @@ async function getHospitalRows() {
 }
 
 export default async function ServiceCountPage() {
+  await connection(); // render ทุก request — ห้าม prerender ข้อมูล DB ตอน build
   const [rows, hospitals] = await Promise.all([getDistrictRows(), getHospitalRows()]);
 
   return (

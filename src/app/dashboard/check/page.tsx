@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
+import { connection } from 'next/server';
 import { Activity } from 'lucide-react';
 import { getDbPool } from '@/lib/db';
 import { AutoRefresh } from './auto-refresh';
-
-export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: 'ตรวจสอบการเชื่อมต่อ',
@@ -53,6 +52,7 @@ function agoText(seconds: number | null) {
 }
 
 export default async function CheckPage() {
+  await connection(); // render ทุก request — ห้าม prerender ข้อมูล DB ตอน build
   const rows = await getCheckRows();
   const onlineCount = rows.filter(
     (row) => row.seconds_ago !== null && row.seconds_ago <= ONLINE_WINDOW_SECONDS
