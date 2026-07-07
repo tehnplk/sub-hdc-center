@@ -57,7 +57,6 @@ export default async function CheckPage() {
   const onlineCount = rows.filter(
     (row) => row.seconds_ago !== null && row.seconds_ago <= ONLINE_WINDOW_SECONDS
   ).length;
-  const centerCount = rows.filter((row) => row.sub_center_name !== null).length;
 
   return (
     <div className="space-y-4">
@@ -69,7 +68,7 @@ export default async function CheckPage() {
           <div>
             <h4 className="text-sm font-bold text-slate-900">ตรวจสอบการเชื่อมต่อ</h4>
             <p className="text-xs text-slate-500">
-              online {onlineCount} / {centerCount} ศูนย์ (นับจากการ sync ภายใน 2 ชั่วโมง)
+              online {onlineCount} / {rows.length} อำเภอ (นับจากการ sync ภายใน 2 ชั่วโมง)
             </p>
           </div>
         </div>

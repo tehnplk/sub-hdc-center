@@ -21,24 +21,37 @@ export interface HospitalRow {
   sent: boolean;
 }
 
-function SentBadge({ sent, all }: { sent: number; all: number }) {
-  const tone =
-    sent === 0
-      ? all === 0
-        ? 'text-slate-300'
-        : 'bg-slate-100 text-slate-400'
-      : sent >= all
-        ? 'bg-emerald-50 text-emerald-700'
-        : 'bg-amber-50 text-amber-700';
-  return <span className={`rounded-full px-2 py-0.5 font-semibold ${tone}`}>{sent}</span>;
+function Dash() {
+  return <span className="text-slate-300">-</span>;
 }
 
-function PercentCell({ sent, all }: { sent: number; all: number }) {
-  if (all === 0) return <span className="text-slate-300">-</span>;
+function CountCell({ value, bold = false }: { value: number; bold?: boolean }) {
+  if (value === 0) return <Dash />;
+  return <span className={`text-slate-700 ${bold ? 'font-bold' : ''}`}>{value}</span>;
+}
+
+function SentBadge({ sent, all, bold = false }: { sent: number; all: number; bold?: boolean }) {
+  if (sent === 0) return <Dash />;
+  const tone = sent >= all ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700';
+  return (
+    <span className={`rounded-full px-2 py-0.5 ${bold ? 'font-bold' : 'font-semibold'} ${tone}`}>
+      {sent}
+    </span>
+  );
+}
+
+function PercentCell({ sent, all, bold = false }: { sent: number; all: number; bold?: boolean }) {
+  if (all === 0) return <Dash />;
   const pct = Math.round((sent / all) * 100);
-  const tone =
-    pct >= 100 ? 'text-emerald-700' : pct > 0 ? 'text-amber-700' : 'text-slate-400';
-  return <span className={`font-semibold ${tone}`}>{pct}%</span>;
+  if (pct === 0) return <Dash />;
+  if (pct >= 100) {
+    return (
+      <span className={`rounded-full bg-[#59e820] px-2 py-0.5 text-white ${bold ? 'font-bold' : 'font-semibold'}`}>
+        {pct}%
+      </span>
+    );
+  }
+  return <span className={`text-amber-700 ${bold ? 'font-bold' : 'font-semibold'}`}>{pct}%</span>;
 }
 
 function DistrictModal({
@@ -183,23 +196,23 @@ export function ServiceTable({
   );
 
   return (
-    <div className="overflow-x-auto rounded-lg border border-slate-200 bg-white shadow-sm">
+    <div className="overflow-x-auto rounded-lg border border-slate-400 bg-white shadow-sm">
       <table className="w-full text-xs">
         <thead>
           <tr className="border-b border-slate-200 bg-slate-50 text-slate-600">
             <th rowSpan={2} className="px-3 py-2 text-left font-semibold">
               รหัสอำเภอ
             </th>
-            <th rowSpan={2} className="border-r border-slate-200 px-3 py-2 text-left font-semibold">
+            <th rowSpan={2} className="border-r border-r-slate-400 px-3 py-2 text-left font-semibold">
               อำเภอ
             </th>
-            <th colSpan={3} className="border-b border-r border-slate-200 px-3 py-1.5 text-center font-semibold text-sky-700">
+            <th colSpan={3} className="border-b border-r border-r-slate-400 bg-sky-50 px-3 py-1.5 text-center font-semibold text-sky-700">
               สังกัด สธ.
             </th>
-            <th colSpan={3} className="border-b border-r border-slate-200 px-3 py-1.5 text-center font-semibold text-amber-700">
+            <th colSpan={3} className="border-b border-r border-r-slate-400 bg-amber-50 px-3 py-1.5 text-center font-semibold text-amber-700">
               สังกัด อปท.
             </th>
-            <th colSpan={3} className="border-b border-r border-slate-200 px-3 py-1.5 text-center font-semibold text-slate-700">
+            <th colSpan={3} className="border-b border-r border-r-slate-400 bg-slate-100 px-3 py-1.5 text-center font-semibold text-slate-700">
               รวม
             </th>
             <th rowSpan={2} className="px-3 py-2 text-left font-semibold">
@@ -207,15 +220,15 @@ export function ServiceTable({
             </th>
           </tr>
           <tr className="border-b border-slate-200 bg-slate-50 text-slate-500">
-            <th className="px-3 py-1.5 text-center font-medium">หน่วยบริการ (แห่ง)</th>
-            <th className="px-3 py-1.5 text-center font-medium">ส่งข้อมูลแล้ว (แห่ง)</th>
-            <th className="border-r border-slate-200 px-3 py-1.5 text-center font-medium">%</th>
-            <th className="px-3 py-1.5 text-center font-medium">หน่วยบริการ (แห่ง)</th>
-            <th className="px-3 py-1.5 text-center font-medium">ส่งข้อมูลแล้ว (แห่ง)</th>
-            <th className="border-r border-slate-200 px-3 py-1.5 text-center font-medium">%</th>
-            <th className="px-3 py-1.5 text-center font-medium">หน่วยบริการ (แห่ง)</th>
-            <th className="px-3 py-1.5 text-center font-medium">ส่งข้อมูลแล้ว (แห่ง)</th>
-            <th className="border-r border-slate-200 px-3 py-1.5 text-center font-medium">%</th>
+            <th className="bg-sky-50/60 px-3 py-1.5 text-center font-medium">หน่วยบริการ (แห่ง)</th>
+            <th className="bg-sky-50/60 px-3 py-1.5 text-center font-medium">ส่งข้อมูลแล้ว (แห่ง)</th>
+            <th className="border-r border-r-slate-400 bg-sky-50/60 px-3 py-1.5 text-center font-medium">%</th>
+            <th className="bg-amber-50/60 px-3 py-1.5 text-center font-medium">หน่วยบริการ (แห่ง)</th>
+            <th className="bg-amber-50/60 px-3 py-1.5 text-center font-medium">ส่งข้อมูลแล้ว (แห่ง)</th>
+            <th className="border-r border-r-slate-400 bg-amber-50/60 px-3 py-1.5 text-center font-medium">%</th>
+            <th className="bg-slate-100/70 px-3 py-1.5 text-center font-medium">หน่วยบริการ (แห่ง)</th>
+            <th className="bg-slate-100/70 px-3 py-1.5 text-center font-medium">ส่งข้อมูลแล้ว (แห่ง)</th>
+            <th className="border-r border-r-slate-400 bg-slate-100/70 px-3 py-1.5 text-center font-medium">%</th>
           </tr>
         </thead>
         <tbody>
@@ -225,7 +238,7 @@ export function ServiceTable({
               className="border-b border-slate-100 last:border-0 hover:bg-sky-50/50"
             >
               <td className="px-3 py-2 font-mono text-slate-500">{row.code}</td>
-              <td className="border-r border-slate-100 px-3 py-2">
+              <td className="border-r border-r-slate-400 px-3 py-2">
                 <button
                   type="button"
                   onClick={() => setSelected(row)}
@@ -234,28 +247,40 @@ export function ServiceTable({
                   {row.name}
                 </button>
               </td>
-              <td className="px-3 py-2 text-center text-slate-700">{row.moph_all}</td>
-              <td className="px-3 py-2 text-center">
+              <td className="bg-sky-50/30 px-3 py-2 text-center">
+                <CountCell value={row.moph_all} />
+              </td>
+              <td className="bg-sky-50/30 px-3 py-2 text-center">
                 <SentBadge sent={row.moph_sent} all={row.moph_all} />
               </td>
-              <td className="border-r border-slate-100 px-3 py-2 text-center">
+              <td className="border-r border-r-slate-400 bg-sky-50/30 px-3 py-2 text-center">
                 <PercentCell sent={row.moph_sent} all={row.moph_all} />
               </td>
-              <td className="px-3 py-2 text-center text-slate-700">{row.loc_all}</td>
-              <td className="px-3 py-2 text-center">
+              <td className="bg-amber-50/30 px-3 py-2 text-center">
+                <CountCell value={row.loc_all} />
+              </td>
+              <td className="bg-amber-50/30 px-3 py-2 text-center">
                 <SentBadge sent={row.loc_sent} all={row.loc_all} />
               </td>
-              <td className="border-r border-slate-100 px-3 py-2 text-center">
+              <td className="border-r border-r-slate-400 bg-amber-50/30 px-3 py-2 text-center">
                 <PercentCell sent={row.loc_sent} all={row.loc_all} />
               </td>
-              <td className="px-3 py-2 text-center text-slate-700">
-                {row.moph_all + row.loc_all}
+              <td className="bg-slate-100/40 px-3 py-2 text-center">
+                <CountCell value={row.moph_all + row.loc_all} bold />
               </td>
-              <td className="px-3 py-2 text-center">
-                <SentBadge sent={row.moph_sent + row.loc_sent} all={row.moph_all + row.loc_all} />
+              <td className="bg-slate-100/40 px-3 py-2 text-center">
+                <SentBadge
+                  sent={row.moph_sent + row.loc_sent}
+                  all={row.moph_all + row.loc_all}
+                  bold
+                />
               </td>
-              <td className="border-r border-slate-100 px-3 py-2 text-center">
-                <PercentCell sent={row.moph_sent + row.loc_sent} all={row.moph_all + row.loc_all} />
+              <td className="border-r border-r-slate-400 bg-slate-100/40 px-3 py-2 text-center">
+                <PercentCell
+                  sent={row.moph_sent + row.loc_sent}
+                  all={row.moph_all + row.loc_all}
+                  bold
+                />
               </td>
               <td className="whitespace-nowrap px-3 py-2 font-mono text-slate-500">
                 {row.last_sync ?? '-'}
@@ -265,25 +290,38 @@ export function ServiceTable({
         </tbody>
         <tfoot>
           <tr className="border-t border-slate-200 bg-slate-50 font-semibold text-slate-700">
-            <td className="px-3 py-2" colSpan={2}>
+            <td className="border-r border-r-slate-400 px-3 py-2" colSpan={2}>
               รวม {rows.length} อำเภอ
             </td>
-            <td className="px-3 py-2 text-center">{total.moph_all}</td>
-            <td className="px-3 py-2 text-center">{total.moph_sent}</td>
-            <td className="border-r border-slate-100 px-3 py-2 text-center">
+            <td className="bg-sky-50/60 px-3 py-2 text-center">
+              <CountCell value={total.moph_all} />
+            </td>
+            <td className="bg-sky-50/60 px-3 py-2 text-center">
+              <CountCell value={total.moph_sent} />
+            </td>
+            <td className="border-r border-r-slate-400 bg-sky-50/60 px-3 py-2 text-center">
               <PercentCell sent={total.moph_sent} all={total.moph_all} />
             </td>
-            <td className="px-3 py-2 text-center">{total.loc_all}</td>
-            <td className="px-3 py-2 text-center">{total.loc_sent}</td>
-            <td className="border-r border-slate-100 px-3 py-2 text-center">
+            <td className="bg-amber-50/60 px-3 py-2 text-center">
+              <CountCell value={total.loc_all} />
+            </td>
+            <td className="bg-amber-50/60 px-3 py-2 text-center">
+              <CountCell value={total.loc_sent} />
+            </td>
+            <td className="border-r border-r-slate-400 bg-amber-50/60 px-3 py-2 text-center">
               <PercentCell sent={total.loc_sent} all={total.loc_all} />
             </td>
-            <td className="px-3 py-2 text-center">{total.moph_all + total.loc_all}</td>
-            <td className="px-3 py-2 text-center">{total.moph_sent + total.loc_sent}</td>
-            <td className="border-r border-slate-100 px-3 py-2 text-center">
+            <td className="bg-slate-100/70 px-3 py-2 text-center">
+              <CountCell value={total.moph_all + total.loc_all} bold />
+            </td>
+            <td className="bg-slate-100/70 px-3 py-2 text-center">
+              <CountCell value={total.moph_sent + total.loc_sent} bold />
+            </td>
+            <td className="border-r border-r-slate-400 bg-slate-100/70 px-3 py-2 text-center">
               <PercentCell
                 sent={total.moph_sent + total.loc_sent}
                 all={total.moph_all + total.loc_all}
+                bold
               />
             </td>
             <td className="px-3 py-2" />
