@@ -48,3 +48,7 @@ deploy_prod.md
 .claude/
 
 docs
+
+# ไฟล์ดาวน์โหลด (binary) — อัปโหลดขึ้น prod แยกด้วย scp ไม่เก็บใน git
+/public/download/*
+!/public/download/.gitkeep

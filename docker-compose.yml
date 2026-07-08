@@ -9,6 +9,7 @@ services:
       - .env
     volumes:
       - ./.env:/app/.env:ro
+      - ./public/download:/app/public/download
     depends_on:
       db:
         condition: service_healthy

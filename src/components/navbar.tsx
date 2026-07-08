@@ -2,11 +2,12 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Activity, Send } from 'lucide-react';
+import { Activity, Download, Send } from 'lucide-react';
 
 const menus = [
   { href: '/dashboard/service_count', label: 'หน่วยบริการส่งข้อมูล', icon: Send },
   { href: '/dashboard/check', label: 'ตรวจสอบการเชื่อมต่อ', icon: Activity },
+  { href: '/dashboard/download', label: 'ดาวน์โหลด', icon: Download },
 ];
 
 export function Navbar() {
