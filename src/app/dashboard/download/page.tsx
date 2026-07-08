@@ -20,8 +20,11 @@ interface DownloadFile {
   downloads: number;
 }
 
-// นามสกุลที่ถือเป็นไฟล์ดาวน์โหลด (ไม่ใช่ภาพ screenshot)
+// นามสกุลภาพ screenshot (ไม่แสดงเป็นรายการดาวน์โหลด แต่ใช้จับคู่)
 const IMAGE_EXTS = new Set(['.png', '.jpg', '.jpeg', '.webp', '.gif']);
+
+// นามสกุลที่อนุญาตให้แสดงในรายการดาวน์โหลด
+const DOWNLOAD_EXTS = new Set(['.exe', '.zip', '.xlsx', '.pdf']);
 
 const DOWNLOAD_DIR = path.join(process.cwd(), 'public', 'download');
 
@@ -76,7 +79,7 @@ async function getFiles(): Promise<DownloadFile[]> {
   const files = await Promise.all(
     entries.map(async (name) => {
       const ext = path.extname(name).toLowerCase();
-      if (IMAGE_EXTS.has(ext)) return null;
+      if (!DOWNLOAD_EXTS.has(ext)) return null;
 
       const stat = await fs.stat(path.join(DOWNLOAD_DIR, name));
       if (!stat.isFile()) return null;

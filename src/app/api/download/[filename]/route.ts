@@ -4,6 +4,7 @@ import path from 'path';
 import { getDbPool } from '@/lib/db';
 
 const DOWNLOAD_DIR = path.join(process.cwd(), 'public', 'download');
+const DOWNLOAD_EXTS = new Set(['.exe', '.zip', '.xlsx', '.pdf']);
 
 export async function GET(
   _request: Request,
@@ -13,6 +14,12 @@ export async function GET(
 
   // กัน path traversal — รับเฉพาะชื่อไฟล์ล้วน
   const safeName = path.basename(filename);
+
+  // อนุญาตเฉพาะนามสกุลที่กำหนด
+  if (!DOWNLOAD_EXTS.has(path.extname(safeName).toLowerCase())) {
+    return NextResponse.json({ error: 'File not found' }, { status: 404 });
+  }
+
   const filePath = path.join(DOWNLOAD_DIR, safeName);
 
   let data: Buffer;
