@@ -41,7 +41,7 @@ export async function GET(request: Request) {
   try {
     const pool = getDbPool();
     const { rows } = await pool.query(
-      `SELECT id, topic, topic_group, interval_minute, sql_command, note,
+      `SELECT id, kpi_name, topic, kpi_group, interval_minute, tables_use, sql_command, note,
               to_char(d_update AT TIME ZONE 'Asia/Bangkok', 'YYYY-MM-DD HH24:MI:SS') AS d_update
        FROM sql_for_sync_data
        WHERE is_active = TRUE
