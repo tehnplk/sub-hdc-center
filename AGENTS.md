@@ -20,6 +20,6 @@
 ## deploy
 - @docs/deploy_prod.md
     
-## Data Analytic 
+## Data Analytic Test
 - Read @docs/data43files_host.md
 

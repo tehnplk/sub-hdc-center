@@ -7,7 +7,7 @@ VALUES
   (
     3,
     'คัดกรองความดันโลหิตสูง',
-    'screening',
+    'screening_bp',
     'screening',
     NULL,
     ARRAY['person', 'ncdscreen'],
@@ -86,7 +86,7 @@ $sql$,
   (
     4,
     'คัดกรองโรคเบาหวาน',
-    'screening',
+    'screening_dm',
     'screening',
     NULL,
     ARRAY['person', 'ncdscreen', 'chronic'],

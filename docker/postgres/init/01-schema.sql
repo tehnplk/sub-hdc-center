@@ -37,7 +37,7 @@ CREATE INDEX IF NOT EXISTS idx_data_sync_in_date_time_sync ON data_sync_in (date
 CREATE TABLE IF NOT EXISTS sql_for_sync_data (
   id BIGSERIAL PRIMARY KEY,
   kpi_name VARCHAR(255) NOT NULL,
-  topic VARCHAR(255) NULL,
+  topic VARCHAR(255) NULL UNIQUE,
   kpi_group VARCHAR(255) NULL,
   interval_minute INTEGER NULL,
   tables_use TEXT[] NOT NULL DEFAULT '{}'::text[],
