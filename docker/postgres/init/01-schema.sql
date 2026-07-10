@@ -33,3 +33,20 @@ CREATE TABLE IF NOT EXISTS sub_version (
 );
 
 CREATE INDEX IF NOT EXISTS idx_data_sync_in_date_time_sync ON data_sync_in (date_time_sync);
+
+CREATE TABLE IF NOT EXISTS sql_for_sync_data (
+  id BIGSERIAL PRIMARY KEY,
+  topic VARCHAR(255) NOT NULL,
+  topic_group VARCHAR(255) NULL,
+  interval_minute INTEGER NULL,
+  sql_command TEXT NOT NULL,
+  note TEXT NULL,
+  d_update TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  is_active BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+CREATE INDEX IF NOT EXISTS idx_sql_for_sync_data_topic
+  ON sql_for_sync_data (topic);
+
+CREATE INDEX IF NOT EXISTS idx_sql_for_sync_data_active
+  ON sql_for_sync_data (is_active);
