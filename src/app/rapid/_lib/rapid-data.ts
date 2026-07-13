@@ -16,6 +16,7 @@ export interface RapidRow {
   affiliation: string;
   ampCode: string;
   ampName: string;
+  subUrl: string;
   target: number;
   result: number;
   control: number;
@@ -82,6 +83,23 @@ async function getHospInfoMap(): Promise<Record<string, HospInfo>> {
     };
   }
   return map;
+}
+
+// URL ศูนย์ข้อมูล SUB-HDC รายอำเภอ (จากตาราง c_sub_url) — key = code (amp_code)
+// คืน {} ถ้าตารางยังไม่มี เพื่อไม่ให้ report ล้มทั้งหน้า
+async function getSubUrlMap(): Promise<Record<string, string>> {
+  try {
+    const pool = getDbPool();
+    const { rows } = await pool.query<{ code: string; public_url: string | null }>(
+      'SELECT code, public_url FROM c_sub_url'
+    );
+    const map: Record<string, string> = {};
+    for (const row of rows) map[row.code] = row.public_url || '';
+    return map;
+  } catch (error) {
+    console.error('c_sub_url lookup failed:', error);
+    return {};
+  }
 }
 
 function computeSummary(rows: RapidRow[]): RapidSummary {
@@ -155,7 +173,7 @@ export async function loadRapidReport(
     }
   }
 
-  const hospInfo = await getHospInfoMap();
+  const [hospInfo, subUrlMap] = await Promise.all([getHospInfoMap(), getSubUrlMap()]);
 
   const rows: RapidRow[] = Array.from(byHospcode.entries())
     .map(([hospcode, acc]) => {
@@ -166,6 +184,7 @@ export async function loadRapidReport(
         affiliation: info.affiliation || '',
         ampCode: info.ampCode || '',
         ampName: info.ampName || '',
+        subUrl: subUrlMap[info.ampCode || ''] || '',
         target: acc.target,
         result: acc.result,
         control: acc.control,

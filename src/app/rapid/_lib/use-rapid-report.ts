@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import Swal from 'sweetalert2';
 import type { BreakdownCol } from './rapid-reports';
 import type { RapidRow, RapidSummary } from './rapid-data';
 
@@ -98,9 +99,21 @@ export function useRapidReport(reportId: string) {
     };
   }, [filteredRows]);
 
-  // คลิกส่วนขาด → ดาวน์โหลดรายชื่อรายคน (ยังไม่มีข้อมูล PERSON ครบ → แจ้งเตือน)
-  function downloadIndividual() {
-    window.alert('ยังดาวน์โหลดไม่ได้: ข้อมูลรายบุคคล (PERSON) ของหน่วยบริการนี้ในระบบ SUB-HDC ยังไม่ครบ');
+  // คลิกส่วนขาด → ชี้ไปยังศูนย์ข้อมูล SUB-HDC ของอำเภอนั้น (ดูรายบุคคลได้ที่ปลายทาง)
+  function downloadIndividual(row: RapidRow) {
+    const ampName = row.ampName || '-';
+    const url = row.subUrl;
+    Swal.fire({
+      icon: 'info',
+      title: 'ดูข้อมูลรายบุคคล',
+      html: url
+        ? `สามารถดูข้อมูลรายบุคคลได้ที่<br/>ศูนย์ข้อมูล SUB-HDC อ.${ampName}<br/><br/>` +
+          `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color:#0284c7;text-decoration:underline;word-break:break-all;">${url}</a>`
+        : `สามารถดูข้อมูลรายบุคคลได้ที่<br/>ศูนย์ข้อมูล SUB-HDC อ.${ampName}<br/><br/>` +
+          `<span style="color:#94a3b8;">(ยังไม่มีลิงก์ศูนย์ข้อมูลของอำเภอนี้)</span>`,
+      confirmButtonText: 'ปิด',
+      confirmButtonColor: '#0284c7',
+    });
   }
 
   return {

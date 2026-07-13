@@ -270,7 +270,7 @@ export function RapidReportView({ reportId, fallbackTitle }: { reportId: string;
                       <td className="px-3 py-2 text-center">
                         <button
                           type="button"
-                          onClick={downloadIndividual}
+                          onClick={() => downloadIndividual(row)}
                           className="inline-flex items-center gap-1 text-slate-700 underline-offset-2 hover:text-sky-700 hover:underline"
                         >
                           {formatNumber(row.unexamined)}
@@ -290,7 +290,7 @@ export function RapidReportView({ reportId, fallbackTitle }: { reportId: string;
                       <td className="px-3 py-2 text-center">
                         <button
                           type="button"
-                          onClick={downloadIndividual}
+                          onClick={() => downloadIndividual(row)}
                           className="inline-flex items-center gap-1 text-slate-700 underline-offset-2 hover:text-sky-700 hover:underline"
                         >
                           {formatNumber(row.deficit)}
