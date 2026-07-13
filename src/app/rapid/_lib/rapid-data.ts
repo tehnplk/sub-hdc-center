@@ -58,8 +58,17 @@ interface HospInfo {
   affiliation: string;
 }
 
-// ชื่อ + อำเภอ + สังกัด ราย hospcode — ใช้ hostype_new เดียวกับหน้า service_count
-// ('21' = อปท., นอกนั้น = สป.สธ.)
+// hostype_new ของ สป.สธ. (สำนักปลัดกระทรวงสาธารณสุข) — นอกนั้นเป็น อปท. หรือ อื่นๆ
+const MOPH_HOSTYPES = new Set(['18', '5', '7', '8']);
+
+function affiliationOf(hostypeNew: string | null): string {
+  if (hostypeNew && MOPH_HOSTYPES.has(hostypeNew)) return 'สป.สธ.';
+  if (hostypeNew === '21') return 'อปท.';
+  return 'อื่นๆ';
+}
+
+// ชื่อ + อำเภอ + สังกัด ราย hospcode — รวมทุกหน่วยที่ active (รวมสังกัดอื่นๆ เช่น
+// รพ.จิตเวช/นอกสังกัด) เพื่อให้ datagrid /rapid แสดงครบทุกสังกัด
 async function getHospInfoMap(): Promise<Record<string, HospInfo>> {
   const pool = getDbPool();
   const { rows } = await pool.query<{
@@ -71,7 +80,7 @@ async function getHospInfoMap(): Promise<Record<string, HospInfo>> {
   }>(`
     SELECT hospcode, hospname, amp_code, amp_name, hostype_new
     FROM c_hospital
-    WHERE is_active AND hostype_new IN ('18', '5', '7', '8', '21')
+    WHERE is_active
   `);
   const map: Record<string, HospInfo> = {};
   for (const row of rows) {
@@ -79,7 +88,7 @@ async function getHospInfoMap(): Promise<Record<string, HospInfo>> {
       hospname: row.hospname || '',
       ampCode: row.amp_code || '',
       ampName: row.amp_name || '',
-      affiliation: row.hostype_new === '21' ? 'อปท.' : 'สป.สธ.',
+      affiliation: affiliationOf(row.hostype_new),
     };
   }
   return map;

@@ -5,7 +5,7 @@ import { RAPID_MENU } from './_lib/rapid-reports';
 
 export const metadata: Metadata = {
   title: 'งานเร่งรัดติดตาม',
-  description: 'ตัวชี้วัดงานเร่งรัดติดตาม ดึงข้อมูลสดจาก HDC กลาง',
+  description: 'ตัวชี้วัดงานเร่งรัดติดตาม แหล่งข้อมูลจาก HDC กลาง',
 };
 
 export default function RapidPortalPage() {
@@ -17,7 +17,7 @@ export default function RapidPortalPage() {
         </span>
         <div>
           <h4 className="text-sm font-bold text-slate-900">งานเร่งรัดติดตาม</h4>
-          <p className="text-xs text-slate-500">เลือกตัวชี้วัดเพื่อดูผลงานรายหน่วยบริการ (ดึงข้อมูลสดจาก HDC กลาง)</p>
+          <p className="text-xs text-slate-500">เลือกตัวชี้วัดเพื่อดูผลงานรายหน่วยบริการ (แหล่งข้อมูลจาก HDC กลาง)</p>
         </div>
       </header>
 

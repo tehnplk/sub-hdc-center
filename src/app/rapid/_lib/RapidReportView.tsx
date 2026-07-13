@@ -105,7 +105,7 @@ export function RapidReportView({ reportId, fallbackTitle }: { reportId: string;
         </span>
         <div>
           <h4 className="text-sm font-bold text-slate-900">{data?.title || fallbackTitle}</h4>
-          <p className="text-xs text-slate-500">งานเร่งรัดติดตามรายตัวชี้วัด · ดึงข้อมูลสดจาก HDC กลาง</p>
+          <p className="text-xs text-slate-500">งานเร่งรัดติดตามรายตัวชี้วัด · แหล่งข้อมูลจาก HDC กลาง</p>
         </div>
       </header>
 
@@ -249,7 +249,11 @@ export function RapidReportView({ reportId, fallbackTitle }: { reportId: string;
                   <td className="px-3 py-2 text-center">
                     <span
                       className={`rounded-full px-2 py-0.5 font-semibold ${
-                        row.affiliation === 'อปท.' ? 'bg-amber-50 text-amber-700' : 'bg-sky-50 text-sky-700'
+                        row.affiliation === 'อปท.'
+                          ? 'bg-amber-50 text-amber-700'
+                          : row.affiliation === 'สป.สธ.'
+                            ? 'bg-sky-50 text-sky-700'
+                            : 'bg-slate-100 text-slate-600'
                       }`}
                     >
                       {formatAffiliation(row.affiliation)}
