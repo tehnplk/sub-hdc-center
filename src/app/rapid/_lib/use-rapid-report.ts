@@ -102,17 +102,22 @@ export function useRapidReport(reportId: string) {
   // คลิกส่วนขาด → ชี้ไปยังศูนย์ข้อมูล SUB-HDC ของอำเภอนั้น (ดูรายบุคคลได้ที่ปลายทาง)
   function downloadIndividual(row: RapidRow) {
     const ampName = row.ampName || '-';
-    const url = row.subUrl;
+    // ตัด / ท้าย public_url (ถ้ามี) แล้วต่อ /rapid/index
+    const base = row.subUrl.replace(/\/+$/, '');
+    const target = base ? `${base}/rapid/index` : '';
     Swal.fire({
       icon: 'info',
       title: 'ดูข้อมูลรายบุคคล',
-      html: url
-        ? `สามารถดูข้อมูลรายบุคคลได้ที่<br/>ศูนย์ข้อมูล SUB-HDC อ.${ampName}<br/><br/>` +
-          `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color:#0284c7;text-decoration:underline;word-break:break-all;">${url}</a>`
-        : `สามารถดูข้อมูลรายบุคคลได้ที่<br/>ศูนย์ข้อมูล SUB-HDC อ.${ampName}<br/><br/>` +
-          `<span style="color:#94a3b8;">(ยังไม่มีลิงก์ศูนย์ข้อมูลของอำเภอนี้)</span>`,
-      confirmButtonText: 'ปิด',
+      html: `สามารถดูข้อมูลรายบุคคลได้ที่<br/>ศูนย์ข้อมูล SUB-HDC อ.${ampName}${
+        target ? '' : '<br/><br/><span style="color:#94a3b8;">(ยังไม่มีลิงก์ศูนย์ข้อมูลของอำเภอนี้)</span>'
+      }`,
+      // ไม่มีปุ่มปิด — ใช้ปุ่มกากบาทมุมขวาบนแทน; คลิกลิงก์แล้วปิด modal อัตโนมัติ
+      showCloseButton: true,
+      showConfirmButton: Boolean(target),
+      confirmButtonText: 'คลิกไปยังศูนย์ข้อมูลอำเภอ',
       confirmButtonColor: '#0284c7',
+    }).then((result) => {
+      if (result.isConfirmed && target) window.open(target, '_blank', 'noopener,noreferrer');
     });
   }
 

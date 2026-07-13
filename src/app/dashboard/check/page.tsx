@@ -16,6 +16,7 @@ interface CheckRow {
   district_code: string;
   district_name: string;
   sub_center_name: string | null;
+  public_url: string | null;
   version: string | null;
   last_sync: string | null;
   seconds_ago: number | null;
@@ -28,11 +29,13 @@ async function getCheckRows() {
       d.code AS district_code,
       d.name AS district_name,
       sc.sub_center_name,
+      su.public_url,
       s.version,
       to_char(s.last_sync AT TIME ZONE 'Asia/Bangkok', 'YYYY-MM-DD HH24:MI:SS') AS last_sync,
       EXTRACT(EPOCH FROM (now() - s.last_sync))::int AS seconds_ago
     FROM c_district d
     LEFT JOIN c_sub_center sc ON sc.district_code = d.code
+    LEFT JOIN c_sub_url su ON su.code = d.code
     LEFT JOIN (
       SELECT sub_center_name, date_time_sync AS last_sync, payload ->> 'version' AS version
       FROM data_sync_in
@@ -102,6 +105,15 @@ export default async function CheckPage() {
                   <td className="px-3 py-2 text-slate-700">
                     {row.last_sync === null ? (
                       <span className="text-slate-300">ยังไม่เชื่อมต่อกับจังหวัด</span>
+                    ) : row.public_url ? (
+                      <a
+                        href={row.public_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-medium text-sky-700 underline-offset-2 hover:underline"
+                      >
+                        {row.sub_center_name}
+                      </a>
                     ) : (
                       row.sub_center_name
                     )}
