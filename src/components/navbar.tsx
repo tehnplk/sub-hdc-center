@@ -32,9 +32,9 @@ export function Navbar() {
   }, []);
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-emerald-800/40 bg-gradient-to-b from-emerald-500 to-emerald-700 shadow-lg shadow-emerald-900/25">
+    <nav className="sticky top-0 z-50 border-b border-emerald-200 bg-emerald-50/95 shadow-sm backdrop-blur">
       <div className="flex w-full items-center gap-4 px-[25px] py-[15px]">
-        <Link href="/rapid" className="text-xs font-bold text-white drop-shadow-sm">
+        <Link href="/rapid" className="text-xs font-bold text-emerald-700">
           Sub HDC Center
         </Link>
         <div className="flex items-center gap-1">
@@ -46,8 +46,8 @@ export function Navbar() {
                 href={href}
                 className={`flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs transition ${
                   active
-                    ? 'bg-white font-semibold text-emerald-700 shadow-sm'
-                    : 'text-emerald-50 hover:bg-white/15 hover:text-white'
+                    ? 'bg-emerald-100 font-semibold text-emerald-800'
+                    : 'text-slate-600 hover:bg-emerald-100/60 hover:text-emerald-800'
                 }`}
               >
                 <Icon className="h-3.5 w-3.5" />
@@ -56,7 +56,7 @@ export function Navbar() {
             );
           })}
         </div>
-        <span className="ml-auto flex items-center gap-1.5 whitespace-nowrap rounded-md border border-white/25 bg-white/15 px-2.5 py-1.5 text-xs font-medium text-white shadow-inner">
+        <span className="ml-auto flex items-center gap-1.5 whitespace-nowrap rounded-md bg-emerald-100 px-2.5 py-1.5 text-xs font-medium text-emerald-700">
           <Users className="h-3.5 w-3.5" />
           จำนวนผู้เข้าใช้งาน {visits === null ? '…' : visits.toLocaleString('th-TH')} ครั้ง
         </span>
