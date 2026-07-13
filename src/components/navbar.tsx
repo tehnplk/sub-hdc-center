@@ -16,13 +16,18 @@ export function Navbar() {
   const [visits, setVisits] = useState<number | null>(null);
   const counted = useRef(false);
 
-  // นับจำนวนผู้เข้าใช้งาน 1 ครั้งต่อการโหลดหน้า (guard กัน StrictMode ยิงซ้ำ)
+  // นับจำนวนผู้เข้าใช้งาน 1 ครั้งต่อ session — refresh/reload ในหน้าเดิมจะแค่อ่านยอด
+  // (GET) ไม่เพิ่มซ้ำ; ref guard กัน StrictMode ยิงซ้ำในการ mount เดียวกัน
   useEffect(() => {
     if (counted.current) return;
     counted.current = true;
-    fetch('/api/visit', { method: 'POST' })
+    const alreadyCounted = sessionStorage.getItem('visitCounted') === '1';
+    fetch('/api/visit', { method: alreadyCounted ? 'GET' : 'POST' })
       .then((response) => response.json())
-      .then((data: { count: number }) => setVisits(data.count))
+      .then((data: { count: number }) => {
+        setVisits(data.count);
+        if (!alreadyCounted) sessionStorage.setItem('visitCounted', '1');
+      })
       .catch(() => setVisits(null));
   }, []);
 
