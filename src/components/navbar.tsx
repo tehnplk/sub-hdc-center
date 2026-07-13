@@ -15,7 +15,7 @@ export function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 border-b border-sky-100 bg-white/95 backdrop-blur">
-      <div className="flex w-full items-center gap-4 px-[15px] py-[15px]">
+      <div className="flex w-full items-center gap-4 px-[25px] py-[15px]">
         <Link href="/rapid" className="text-xs font-bold text-sky-700">
           Sub HDC Center
         </Link>
