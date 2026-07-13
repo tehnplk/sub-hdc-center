@@ -1,8 +1,9 @@
 'use client';
 
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Activity, Download, Zap } from 'lucide-react';
+import { Activity, Download, Users, Zap } from 'lucide-react';
 
 const menus = [
   { href: '/rapid', label: 'งานเร่งรัดติดตาม', icon: Zap },
@@ -12,6 +13,18 @@ const menus = [
 
 export function Navbar() {
   const pathname = usePathname();
+  const [visits, setVisits] = useState<number | null>(null);
+  const counted = useRef(false);
+
+  // นับจำนวนผู้เข้าใช้งาน 1 ครั้งต่อการโหลดหน้า (guard กัน StrictMode ยิงซ้ำ)
+  useEffect(() => {
+    if (counted.current) return;
+    counted.current = true;
+    fetch('/api/visit', { method: 'POST' })
+      .then((response) => response.json())
+      .then((data: { count: number }) => setVisits(data.count))
+      .catch(() => setVisits(null));
+  }, []);
 
   return (
     <nav className="sticky top-0 z-50 border-b border-sky-100 bg-white/95 backdrop-blur">
@@ -38,6 +51,10 @@ export function Navbar() {
             );
           })}
         </div>
+        <span className="ml-auto flex items-center gap-1.5 whitespace-nowrap rounded-md bg-sky-50 px-2.5 py-1.5 text-xs font-medium text-sky-700">
+          <Users className="h-3.5 w-3.5" />
+          จำนวนผู้เข้าใช้งาน {visits === null ? '…' : visits.toLocaleString('th-TH')} ครั้ง
+        </span>
       </div>
     </nav>
   );

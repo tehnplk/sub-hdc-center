@@ -55,3 +55,12 @@ CREATE INDEX IF NOT EXISTS idx_sql_for_sync_data_kpi_name
 
 CREATE INDEX IF NOT EXISTS idx_sql_for_sync_data_active
   ON sql_for_sync_data (is_active);
+
+-- ตัวนับจำนวนผู้เข้าใช้งาน (single-row counter)
+CREATE TABLE IF NOT EXISTS visit_count (
+  id SMALLINT PRIMARY KEY DEFAULT 1,
+  count BIGINT NOT NULL DEFAULT 0,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  CONSTRAINT visit_count_singleton CHECK (id = 1)
+);
+INSERT INTO visit_count (id, count) VALUES (1, 0) ON CONFLICT (id) DO NOTHING;
