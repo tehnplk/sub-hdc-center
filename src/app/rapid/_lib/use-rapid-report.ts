@@ -13,6 +13,7 @@ export interface RapidApiResponse {
   resultLabel: string;
   controlLabel: string;
   breakdownCols: BreakdownCol[];
+  rateBase: string;
   year: string;
   fetchedAt: string;
   rows: RapidRow[];

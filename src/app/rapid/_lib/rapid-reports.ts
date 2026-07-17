@@ -21,6 +21,7 @@ export interface RapidReport {
   resultLabel: string;
   controlLabel?: string;
   breakdownCols?: BreakdownCol[];
+  rateBase?: 'target'; // when 'target', % rate uses target as denominator instead of control
 }
 
 // เดือนของ HDC เรียงตามปีงบประมาณ (ต.ค. → ก.ย.)
@@ -36,6 +37,7 @@ export const RAPID_REPORTS: Record<string, RapidReport> = {
     targetLabel: 'ผู้ป่วย DM',
     resultLabel: 'คุมน้ำตาลได้ดี',
     controlLabel: 'ได้รับการตรวจ',
+    rateBase: 'target',
   },
   '52': {
     title: 'ความครอบคลุมวัคซีนป้องกันหัด-คางทูม-หัดเยอรมัน เข็มที่ 2 (MMR2)',

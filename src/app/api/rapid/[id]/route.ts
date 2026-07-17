@@ -19,6 +19,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       resultLabel: report.resultLabel,
       controlLabel: report.controlLabel || '',
       breakdownCols: report.breakdownCols || [],
+      rateBase: report.rateBase || '',
       year,
       fetchedAt: new Date().toISOString(),
       rows,

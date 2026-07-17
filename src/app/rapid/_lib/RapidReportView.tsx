@@ -62,13 +62,16 @@ export function RapidReportView({ reportId, fallbackTitle }: { reportId: string;
 
   const sortColumns: SortColumn[] = useMemo(() => {
     if (mode === 'control') {
+      const rateCol: SortColumn = data?.rateBase === 'target'
+        ? { key: 'percent', label: '% คุมได้', type: 'num' }
+        : { key: 'controlPercent', label: '% คุมได้', type: 'num' };
       return [
         ...FIXED_COLUMNS,
         { key: 'target', label: data?.targetLabel || 'เป้าหมาย', type: 'num' },
         { key: 'control', label: data?.controlLabel || 'ได้รับการตรวจ', type: 'num' },
         { key: 'screenPercent', label: '% ตรวจ', type: 'num' },
         { key: 'result', label: data?.resultLabel || 'ผลงาน', type: 'num' },
-        { key: 'controlPercent', label: '% คุมได้', type: 'num' },
+        rateCol,
         { key: 'unexamined', label: 'ยังไม่ได้ตรวจ', type: 'num' },
       ];
     }
@@ -141,7 +144,7 @@ export function RapidReportView({ reportId, fallbackTitle }: { reportId: string;
         <span className="flex items-center gap-1.5">
           <Percent className="h-3.5 w-3.5 text-slate-400" aria-hidden="true" />
           {mode === 'control' ? 'คุมได้' : 'ร้อยละ'}{' '}
-          <strong className="text-slate-900">{loading ? '…' : formatPercent(mode === 'control' ? summary.controlPercent : summary.percent)}</strong>
+          <strong className="text-slate-900">{loading ? '…' : formatPercent(mode === 'control' && data?.rateBase !== 'target' ? summary.controlPercent : summary.percent)}</strong>
         </span>
         <span className="flex items-center gap-1.5">
           <TriangleAlert className="h-3.5 w-3.5 text-slate-400" aria-hidden="true" />
@@ -269,7 +272,7 @@ export function RapidReportView({ reportId, fallbackTitle }: { reportId: string;
                       </td>
                       <td className="px-3 py-2 text-center">{formatNumber(row.result)}</td>
                       <td className="px-3 py-2 text-center">
-                        <PercentBadge value={row.controlPercent} />
+                        <PercentBadge value={data?.rateBase === 'target' ? row.percent : row.controlPercent} />
                       </td>
                       <td className="px-3 py-2 text-center">
                         <button
