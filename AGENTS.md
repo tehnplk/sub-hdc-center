@@ -17,9 +17,16 @@
         3. `playwright-cli show --anotate` if user request anotate.
         4. while anotate progress wait user input.
 
-## deploy
-- @docs/deploy_prod.md
-    
+
+## HDC API Request
+- read @handoff/hand-off-hdc-api.md
+
+ 
 ## Data Analytic Test
 - Read @docs/data43files_host.md
 
+
+
+## deploy
+- @docs/deploy_prod.md
+   
