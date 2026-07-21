@@ -51,6 +51,16 @@
   --shadow: rgb(33 160 107 / 35%);
 }
 
+.flow {
+  --accent: #168ec7;
+  --shadow: rgb(22 142 199 / 28%);
+  display: block;
+  background:
+    radial-gradient(circle at 86% 14%, rgb(33 160 107 / 9%), transparent 24%),
+    radial-gradient(circle at 10% 90%, rgb(22 142 199 / 8%), transparent 26%),
+    #fff;
+}
+
 .progress {
   --accent: #6757c7;
   --shadow: rgb(103 87 199 / 30%);
@@ -308,6 +318,285 @@
   font-size: 47px;
   font-weight: 700;
   line-height: 1.25;
+}
+
+.flowContent {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 42px 64px 46px;
+}
+
+.flowContent .kicker {
+  margin-bottom: 4px;
+}
+
+.flowContent h2 {
+  margin: 0 0 4px;
+  color: #172137;
+  font-family: var(--font-slide-heading), sans-serif;
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.flowStage {
+  position: relative;
+  width: 1152px;
+  height: 446px;
+  margin-top: 32px;
+}
+
+.flowLines {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.flowLayerHead {
+  position: absolute;
+  top: 0;
+  z-index: 3;
+  width: 270px;
+  color: #1f2a3c;
+  font-family: var(--font-slide-heading), sans-serif;
+  font-size: 19px;
+  font-weight: 600;
+}
+
+.flowLayerOne {
+  left: 0;
+}
+
+.flowLayerTwo {
+  left: 425px;
+}
+
+.flowLayerThree {
+  left: 850px;
+}
+
+.flowNode {
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 92px;
+  padding: 10px 15px;
+  border: 1px solid #d9e4ef;
+  border-radius: 16px;
+  background: rgb(255 255 255 / 97%);
+  box-shadow: 0 9px 22px rgb(31 60 91 / 10%);
+}
+
+.flowNodeIcon {
+  position: relative;
+  display: grid;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 13px;
+  background: #e8f6fc;
+  color: #168ec7;
+}
+
+.flowNodeCopy {
+  min-width: 0;
+}
+
+.flowNodeCopy strong {
+  display: block;
+  color: #202a3b;
+  font-family: var(--font-slide-heading), sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.flowNodeCopy span {
+  display: block;
+  margin-top: 3px;
+  color: #718093;
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.serviceNode {
+  left: 0;
+  width: 255px;
+}
+
+.hubNode {
+  left: 425px;
+  width: 255px;
+  border-color: rgb(47 125 225 / 28%);
+  background: linear-gradient(135deg, #fff, #f3f8ff);
+}
+
+.hubNode .flowNodeIcon {
+  background: #eafaf3;
+  color: #1da66f;
+}
+
+.hubNode .flowNodeCopy strong {
+  font-size: 16.5px;
+  line-height: 1.12;
+}
+
+.securityBadge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  display: grid;
+  width: 23px;
+  height: 23px;
+  place-items: center;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: #2f7de1;
+  color: #fff;
+}
+
+.hubBullets {
+  margin: 3px 0 0;
+  padding: 0;
+  color: #718093;
+  font-size: 12.5px;
+  line-height: 1.18;
+  list-style: none;
+}
+
+.hubBullets li::before {
+  margin-right: 5px;
+  color: #21a06b;
+  content: "•";
+  font-weight: 700;
+}
+
+.flowRowOne {
+  top: 68px;
+}
+
+.flowRowTwo {
+  top: 172px;
+}
+
+.flowRowThree {
+  top: 276px;
+}
+
+.dashboardNode {
+  top: 82px;
+  left: 850px;
+  width: 270px;
+  height: 166px;
+  padding: 18px;
+  border: 0;
+  background: linear-gradient(135deg, #113c67, #168ec7);
+  box-shadow: 0 14px 32px rgb(17 60 103 / 25%);
+}
+
+.dashboardNode .flowNodeIcon {
+  width: 58px;
+  height: 58px;
+  background: rgb(255 255 255 / 14%);
+  color: #fff;
+}
+
+.dashboardNode .flowNodeCopy strong,
+.dashboardNode .flowNodeCopy span {
+  color: #fff;
+}
+
+.dashboardNode .flowNodeCopy strong {
+  font-size: 20px;
+}
+
+.dashboardNode .flowNodeCopy span {
+  opacity: 0.78;
+}
+
+.centralNode {
+  top: 306px;
+  left: 850px;
+  width: 270px;
+  height: 92px;
+  border-color: rgb(224 82 82 / 35%);
+  background: linear-gradient(135deg, #fff, #fff3f3);
+}
+
+.centralNode .flowNodeIcon {
+  background: linear-gradient(135deg, #163f70, #d94355);
+  color: #fff;
+}
+
+.centralNode .flowNodeCopy strong {
+  color: #b52e3e;
+  font-size: 20px;
+}
+
+.flowRouteLabel,
+.flowCompareLabel {
+  position: absolute;
+  z-index: 4;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #fff;
+  font-family: var(--font-slide-heading), sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.flowRouteLabel {
+  top: 397px;
+  left: 510px;
+  padding-inline: 12px;
+  border: 1px solid rgb(224 82 82 / 25%);
+  color: #c23d4c;
+}
+
+.flowCompareLabel {
+  top: 263px;
+  left: 882px;
+  width: 206px;
+  border: 1px dashed #8a96a8;
+  color: #586579;
+}
+
+.flowLegend {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 4;
+  display: flex;
+  gap: 22px;
+  color: #667286;
+  font-size: 12px;
+}
+
+.flowLegend span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.flowLegend i {
+  width: 28px;
+  height: 3px;
+  border-radius: 99px;
+  background: #2f7de1;
+}
+
+.flowLegend .flowLegendSecondary {
+  height: 0;
+  border-top: 3px dashed #e05252;
+  background: transparent;
 }
 
 .progressContent {

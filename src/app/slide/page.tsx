@@ -11,12 +11,19 @@ import {
   FileCheck2,
   FileSignature,
   Flag,
+  ChartNoAxesCombined,
+  CloudUpload,
+  Hospital,
+  HousePlus,
   ListChecks,
   ListTodo,
   RefreshCcw,
   Route,
   Server,
+  Share2,
+  ShieldCheck,
   Square,
+  Stethoscope,
   UserCog,
   UserRoundCheck,
   UsersRound,
@@ -164,7 +171,7 @@ export default function SlidePage() {
   return (
     <main className={`${styles.deck} ${kanit.variable} ${sarabun.variable}`}>
       <section className={`${styles.slide} ${styles.cover}`}>
-        <SlideMeta number="01 / 05" />
+        <SlideMeta number="01 / 06" />
         <div className={styles.visual}>
           <Image
             src="/slide/health-data-profile.png"
@@ -186,7 +193,7 @@ export default function SlidePage() {
       </section>
 
       <section className={`${styles.slide} ${styles.problem}`}>
-        <SlideMeta number="02 / 05" />
+        <SlideMeta number="02 / 06" />
         <div className={styles.visual}>
           <Image
             src="/slide/nurse-hdc-nhso-cloud.png"
@@ -210,7 +217,7 @@ export default function SlidePage() {
       </section>
 
       <section className={`${styles.slide} ${styles.strategy}`}>
-        <SlideMeta number="03 / 05" />
+        <SlideMeta number="03 / 06" />
         <div className={`${styles.visual} ${styles.mapVisual}`}>
           <Image
             src="/slide/district-datahub-map.png"
@@ -242,8 +249,105 @@ export default function SlidePage() {
         </div>
       </section>
 
+      <section className={`${styles.slide} ${styles.flow}`}>
+        <SlideMeta number="04 / 06" />
+        <div className={styles.flowContent}>
+          <Kicker icon={Share2}>DATA FLOW</Kicker>
+          <h2>รูปแบบการส่งต่อข้อมูล</h2>
+
+          <div className={styles.flowStage}>
+            <div className={`${styles.flowLayerHead} ${styles.flowLayerOne}`}>หน่วยบริการ</div>
+            <div className={`${styles.flowLayerHead} ${styles.flowLayerTwo}`}>ศูนย์ข้อมูลอำเภอ</div>
+            <div className={`${styles.flowLayerHead} ${styles.flowLayerThree}`}>Dashboard ระดับจังหวัด</div>
+
+            <svg className={styles.flowLines} viewBox="0 0 1152 446" aria-hidden="true">
+              <defs>
+                <marker id="flow-arrow-main" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#2f7de1" />
+                </marker>
+                <marker id="flow-arrow-central" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#e05252" />
+                </marker>
+              </defs>
+
+              <path d="M255 114 L417 114" fill="none" stroke="#2f7de1" strokeWidth="4" markerEnd="url(#flow-arrow-main)" />
+              <path d="M255 218 L417 218" fill="none" stroke="#2f7de1" strokeWidth="4" markerEnd="url(#flow-arrow-main)" />
+              <path d="M255 322 L417 322" fill="none" stroke="#2f7de1" strokeWidth="4" markerEnd="url(#flow-arrow-main)" />
+
+              <path d="M680 114 C750 114 770 110 805 110 H842" fill="none" stroke="#21a06b" strokeWidth="4" markerEnd="url(#flow-arrow-main)" />
+              <path d="M680 218 C750 218 770 165 805 165 H842" fill="none" stroke="#21a06b" strokeWidth="4" markerEnd="url(#flow-arrow-main)" />
+              <path d="M680 322 C750 322 770 220 805 220 H842" fill="none" stroke="#21a06b" strokeWidth="4" markerEnd="url(#flow-arrow-main)" />
+
+              <path d="M278 350 V390 H790 V352 H820" fill="none" stroke="#e05252" strokeWidth="3" strokeDasharray="9 6" />
+              <path d="M820 352 H842" fill="none" stroke="#e05252" strokeWidth="3" markerEnd="url(#flow-arrow-central)" />
+              <circle cx="278" cy="350" r="5" fill="#e05252" />
+
+              <path d="M985 250 V263 M985 291 V304" fill="none" stroke="#7d899b" strokeWidth="2.5" strokeDasharray="5 5" />
+              <circle cx="985" cy="250" r="4" fill="#7d899b" />
+              <circle cx="985" cy="304" r="4" fill="#7d899b" />
+            </svg>
+
+            <div className={`${styles.flowNode} ${styles.serviceNode} ${styles.flowRowOne}`}>
+              <div className={styles.flowNodeIcon}><Hospital aria-hidden="true" size={23} /></div>
+              <div className={styles.flowNodeCopy}><strong>โรงพยาบาล</strong><span>บันทึกและส่งข้อมูล</span></div>
+            </div>
+            <div className={`${styles.flowNode} ${styles.serviceNode} ${styles.flowRowTwo}`}>
+              <div className={styles.flowNodeIcon}><Stethoscope aria-hidden="true" size={23} /></div>
+              <div className={styles.flowNodeCopy}><strong>รพ.สต. สังกัด สธ.</strong><span>บันทึกและส่งข้อมูล</span></div>
+            </div>
+            <div className={`${styles.flowNode} ${styles.serviceNode} ${styles.flowRowThree}`}>
+              <div className={styles.flowNodeIcon}><HousePlus aria-hidden="true" size={23} /></div>
+              <div className={styles.flowNodeCopy}><strong>รพ.สต. สังกัด อปท.</strong><span>บันทึกและส่งข้อมูล</span></div>
+            </div>
+
+            {[styles.flowRowOne, styles.flowRowTwo, styles.flowRowThree].map((rowClass) => (
+              <div key={rowClass} className={`${styles.flowNode} ${styles.hubNode} ${rowClass}`}>
+                <div className={styles.flowNodeIcon}>
+                  <Database aria-hidden="true" size={23} />
+                  <span className={styles.securityBadge}><ShieldCheck aria-hidden="true" size={14} /></span>
+                </div>
+                <div className={styles.flowNodeCopy}>
+                  <strong>Data Hub อำเภอ</strong>
+                  <ul className={styles.hubBullets}>
+                    <li>ตรวจสอบ</li>
+                    <li>เพิ่มคุณภาพ</li>
+                    <li>ใช้ประโยชน์ในอำเภอ</li>
+                  </ul>
+                </div>
+              </div>
+            ))}
+
+            <div className={`${styles.flowNode} ${styles.dashboardNode}`}>
+              <div className={styles.flowNodeIcon}><ChartNoAxesCombined aria-hidden="true" size={28} /></div>
+              <div className={styles.flowNodeCopy}>
+                <strong>Dashboard จังหวัด</strong>
+                <span>กำกับ ติดตาม และนำข้อมูลกลับมาใช้</span>
+              </div>
+            </div>
+
+            <div className={`${styles.flowNode} ${styles.centralNode}`}>
+              <div className={styles.flowNodeIcon}><CloudUpload aria-hidden="true" size={23} /></div>
+              <div className={styles.flowNodeCopy}>
+                <strong>HDC / สปสช.</strong>
+                <span>ระบบประมวลผลส่วนกลาง</span>
+              </div>
+            </div>
+
+            <div className={styles.flowRouteLabel}>ส่งข้อมูลเข้าสู่ระบบส่วนกลาง</div>
+            <div className={styles.flowCompareLabel}>เทียบเคียง / สอดคล้อง</div>
+
+            <div className={styles.flowLegend}>
+              <span><i />เส้นทาง Data Hub ระดับอำเภอ</span>
+              <span><i className={styles.flowLegendSecondary} />เส้นทาง HDC / สปสช.</span>
+            </div>
+          </div>
+
+          <SlideFooter />
+        </div>
+      </section>
+
       <section className={`${styles.slide} ${styles.outcome}`}>
-        <SlideMeta number="04 / 05" />
+        <SlideMeta number="05 / 06" />
         <div className={styles.visual}>
           <Image
             src="/slide/slide4-dashboard-bright.png"
@@ -265,7 +369,7 @@ export default function SlidePage() {
       </section>
 
       <section className={`${styles.slide} ${styles.progress}`}>
-        <SlideMeta number="05 / 05" />
+        <SlideMeta number="06 / 06" />
         <div className={`${styles.content} ${styles.progressContent}`}>
           <Kicker icon={ListTodo}>แผนการดำเนินงาน</Kicker>
           <h2>ความก้าวหน้าการดำเนินงาน</h2>
