@@ -170,7 +170,7 @@ const progressRows = [
 export default function SlidePage() {
   return (
     <main className={`${styles.deck} ${kanit.variable} ${sarabun.variable}`}>
-      <section className={`${styles.slide} ${styles.cover}`}>
+      <section id="1" className={`${styles.slide} ${styles.cover}`}>
         <SlideMeta number="01 / 06" />
         <div className={styles.visual}>
           <Image
@@ -192,7 +192,7 @@ export default function SlidePage() {
         </div>
       </section>
 
-      <section className={`${styles.slide} ${styles.problem}`}>
+      <section id="2" className={`${styles.slide} ${styles.problem}`}>
         <SlideMeta number="02 / 06" />
         <div className={styles.visual}>
           <Image
@@ -216,7 +216,7 @@ export default function SlidePage() {
         </div>
       </section>
 
-      <section className={`${styles.slide} ${styles.strategy}`}>
+      <section id="3" className={`${styles.slide} ${styles.strategy}`}>
         <SlideMeta number="03 / 06" />
         <div className={`${styles.visual} ${styles.mapVisual}`}>
           <Image
@@ -249,7 +249,7 @@ export default function SlidePage() {
         </div>
       </section>
 
-      <section className={`${styles.slide} ${styles.flow}`}>
+      <section id="4" className={`${styles.slide} ${styles.flow}`}>
         <SlideMeta number="04 / 06" />
         <div className={styles.flowContent}>
           <Kicker icon={Share2}>DATA FLOW</Kicker>
@@ -346,7 +346,7 @@ export default function SlidePage() {
         </div>
       </section>
 
-      <section className={`${styles.slide} ${styles.outcome}`}>
+      <section id="5" className={`${styles.slide} ${styles.outcome}`}>
         <SlideMeta number="05 / 06" />
         <div className={styles.visual}>
           <Image
@@ -368,7 +368,7 @@ export default function SlidePage() {
         </div>
       </section>
 
-      <section className={`${styles.slide} ${styles.progress}`}>
+      <section id="6" className={`${styles.slide} ${styles.progress}`}>
         <SlideMeta number="06 / 06" />
         <div className={`${styles.content} ${styles.progressContent}`}>
           <Kicker icon={ListTodo}>แผนการดำเนินงาน</Kicker>

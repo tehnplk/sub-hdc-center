@@ -26,6 +26,7 @@
   --accent: #168ec7;
   --shadow: rgb(22 142 199 / 35%);
   position: relative;
+  scroll-margin-top: 40px;
   display: flex;
   flex: 0 0 auto;
   width: min(var(--slide-width), 95vw);
